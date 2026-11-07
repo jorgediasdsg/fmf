@@ -9,14 +9,19 @@ const SPEED := 6.0
 const IFRAME_TIME := 1.0
 const KNOCKBACK := 8.0
 const CAM_LERP := 8.0
+const ATTACK_ACTIVE := 0.2
+const ATTACK_COOLDOWN := 0.4
 
 var facing := Vector3.FORWARD
 var anim: AnimationPlayer
 var _iframes := 0.0
+var _attack_active := 0.0
+var _attack_cd := 0.0
 var _dead := false
 
 @onready var body: Node3D = $Body
 @onready var rig: Node3D = $CameraRig
+@onready var sword: Area3D = $Body/SwordArea
 
 
 func _ready() -> void:
@@ -33,6 +38,7 @@ func _ready() -> void:
 	body.add_child(model)
 	anim = model.get_node("Anim")
 	anim.play("idle")
+	sword.body_entered.connect(_on_sword_hit)
 
 
 func _physics_process(delta: float) -> void:
@@ -44,6 +50,18 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0.0
 
 	_iframes -= delta
+	_attack_cd -= delta
+	_attack_active -= delta
+	if _attack_active <= 0.0:
+		sword.monitoring = false
+	if Input.is_action_just_pressed("attack") and _attack_cd <= 0.0:
+		_attack_cd = ATTACK_COOLDOWN
+		_attack_active = ATTACK_ACTIVE
+		sword.monitoring = true
+		Sfx.play("hit", -8.0)
+		if anim != null:
+			anim.play("attack")
+
 	var input := Vector3(
 		Input.get_axis("move_left", "move_right"), 0.0,
 		Input.get_axis("move_up", "move_down"))
@@ -64,6 +82,11 @@ func _physics_process(delta: float) -> void:
 		var target := "run" if moving else "idle"
 		if anim.current_animation != target:
 			anim.play(target)
+
+
+func _on_sword_hit(hit_body: Node) -> void:
+	if hit_body.has_method("take_hit"):
+		hit_body.take_hit(GameState.attack_damage(), global_position)
 
 
 func _process(delta: float) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://src/player3d/player.gd" id="1"]
 
@@ -9,6 +9,9 @@ height = 1.4
 [sub_resource type="CapsuleMesh" id="mesh"]
 radius = 0.35
 height = 1.4
+
+[sub_resource type="BoxShape3D" id="sword_box"]
+size = Vector3(1.4, 1.2, 1.5)
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
@@ -24,6 +27,16 @@ shape = SubResource("col")
 [node name="Mesh" type="MeshInstance3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 mesh = SubResource("mesh")
+
+[node name="SwordArea" type="Area3D" parent="Body"]
+collision_layer = 8
+collision_mask = 4
+monitoring = false
+monitorable = false
+
+[node name="SwordShape" type="CollisionShape3D" parent="Body/SwordArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 1.0)
+shape = SubResource("sword_box")
 
 [node name="CameraRig" type="Node3D" parent="."]
 
