@@ -11,6 +11,7 @@ const KNOCKBACK := 8.0
 const CAM_LERP := 8.0
 
 var facing := Vector3.FORWARD
+var anim: AnimationPlayer
 var _iframes := 0.0
 var _dead := false
 
@@ -25,10 +26,13 @@ func _ready() -> void:
 	var cam: Camera3D = $CameraRig/Camera
 	cam.position = Vector3(0, 11.0, 10.2)
 	cam.rotation_degrees.x = -48.0
-	var mesh := $Body/Mesh as MeshInstance3D
-	if mesh != null:
-		mesh.material_override = ToonMaterial.flat(Color(0.82, 0.27, 0.28))
-		ToonMaterial.add_outline(mesh)
+	var placeholder := body.get_node_or_null("Mesh")
+	if placeholder != null:
+		placeholder.queue_free()
+	var model := CharacterBuilder.build_zack()
+	body.add_child(model)
+	anim = model.get_node("Anim")
+	anim.play("idle")
 
 
 func _physics_process(delta: float) -> void:
@@ -55,6 +59,11 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	body.visible = _iframes <= 0.0 or fmod(_iframes, 0.16) < 0.08
+	if anim != null and anim.current_animation != "attack":
+		var moving := Vector2(velocity.x, velocity.z).length() > 0.5
+		var target := "run" if moving else "idle"
+		if anim.current_animation != target:
+			anim.play(target)
 
 
 func _process(delta: float) -> void:
