@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://src/levels3d/arena_test.gd" id="1"]
 [ext_resource type="PackedScene" path="res://src/player3d/player.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://src/ui/vignette.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://src/ui/hud.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://src/ui/touch_controls.tscn" id="5"]
 
 [sub_resource type="Environment" id="env"]
 background_mode = 1
@@ -29,3 +31,7 @@ shadow_enabled = true
 [node name="Player" parent="." instance=ExtResource("2")]
 
 [node name="Vignette" parent="." instance=ExtResource("3")]
+
+[node name="Hud" parent="." instance=ExtResource("4")]
+
+[node name="TouchControls" parent="." instance=ExtResource("5")]

@@ -1,10 +1,8 @@
 extends CanvasLayer
-## Controles de toque: visíveis só em telas touch; reposiciona ao redimensionar.
+## Controles de toque: joystick virtual à esquerda + botão de ataque à direita.
+## Visível apenas em telas de toque; reposiciona ao redimensionar.
 
-@onready var left: TouchScreenButton = $Left
-@onready var right: TouchScreenButton = $Right
-@onready var jump: TouchScreenButton = $Jump
-@onready var attack: TouchScreenButton = $Attack
+@onready var attack_btn: TouchScreenButton = $Attack
 
 
 func _ready() -> void:
@@ -15,9 +13,5 @@ func _ready() -> void:
 
 func _layout() -> void:
 	var s := get_viewport().get_visible_rect().size
-	var b := 48.0  # tamanho do botão em pixels do canvas (64 * 0.75)
-	var margin := 10.0
-	left.position = Vector2(margin, s.y - b - margin)
-	right.position = Vector2(margin + b + 8.0, s.y - b - margin)
-	attack.position = Vector2(s.x - 2.0 * b - margin - 8.0, s.y - b - margin)
-	jump.position = Vector2(s.x - b - margin, s.y - b - margin - 14.0)
+	var b := 56.0
+	attack_btn.position = Vector2(s.x - b - 14.0, s.y - b - 14.0)

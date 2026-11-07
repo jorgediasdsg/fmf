@@ -1,33 +1,22 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://src/ui/touch_controls.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/btn_left.png" id="2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/btn_right.png" id="3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/btn_jump.png" id="4"]
-[ext_resource type="Texture2D" path="res://assets/sprites/btn_attack.png" id="5"]
+[ext_resource type="Script" path="res://src/ui/virtual_joystick.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/btn_attack.png" id="3"]
 
 [node name="TouchControls" type="CanvasLayer"]
 layer = 10
 script = ExtResource("1")
 
-[node name="Left" type="TouchScreenButton" parent="."]
-scale = Vector2(0.75, 0.75)
-texture_normal = ExtResource("2")
-passby_press = true
-action = "move_left"
-
-[node name="Right" type="TouchScreenButton" parent="."]
-scale = Vector2(0.75, 0.75)
-texture_normal = ExtResource("3")
-passby_press = true
-action = "move_right"
-
-[node name="Jump" type="TouchScreenButton" parent="."]
-scale = Vector2(0.75, 0.75)
-texture_normal = ExtResource("4")
-action = "jump"
+[node name="Joystick" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 0.45
+anchor_bottom = 1.0
+offset_top = 60.0
+mouse_filter = 2
+script = ExtResource("2")
 
 [node name="Attack" type="TouchScreenButton" parent="."]
-scale = Vector2(0.75, 0.75)
-texture_normal = ExtResource("5")
+scale = Vector2(0.875, 0.875)
+texture_normal = ExtResource("3")
 action = "attack"

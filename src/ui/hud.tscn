@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/ui/hud.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/coin.png" id="2"]
+[ext_resource type="FontFile" path="res://assets/fonts/PressStart2P-Regular.ttf" id="3"]
+
+[sub_resource type="AtlasTexture" id="coin_icon"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 8, 8)
+
+[node name="Hud" type="CanvasLayer"]
+layer = 8
+script = ExtResource("1")
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 80.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+
+[node name="Rows" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 4
+
+[node name="Hearts" type="HBoxContainer" parent="Margin/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="CoinsRow" type="HBoxContainer" parent="Margin/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="CoinIcon" type="TextureRect" parent="Margin/Rows/CoinsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(16, 16)
+texture = SubResource("coin_icon")
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1
+
+[node name="CoinLabel" type="Label" parent="Margin/Rows/CoinsRow"]
+layout_mode = 2
+text = "0"
+theme_override_fonts/font = ExtResource("3")
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_outline_color = Color(0.07, 0.06, 0.1, 1)
+theme_override_constants/outline_size = 3
+
+[node name="LevelRow" type="HBoxContainer" parent="Margin/Rows"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LevelLabel" type="Label" parent="Margin/Rows/LevelRow"]
+layout_mode = 2
+text = "Nv. 1"
+theme_override_fonts/font = ExtResource("3")
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_outline_color = Color(0.07, 0.06, 0.1, 1)
+theme_override_constants/outline_size = 3
+
+[node name="XpBar" type="ProgressBar" parent="Margin/Rows/LevelRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(70, 10)
+size_flags_vertical = 4
+show_percentage = false
