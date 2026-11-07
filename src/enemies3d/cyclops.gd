@@ -2,6 +2,8 @@ extends CharacterBody3D
 ## Ciclope 3D: vagueia; persegue o player a <8 m; dano por contato;
 ## morre soltando moedas e XP. O chefe reusa via exports/herança.
 
+signal defeated
+
 @export var hp := 6
 @export var contact_damage := 2
 @export var speed := 2.5
@@ -87,6 +89,7 @@ func _punch_scale() -> void:
 
 func _die() -> void:
 	_dying = true
+	defeated.emit()
 	var parent := get_parent()
 	var rng := RandomNumberGenerator.new()
 	for i in range(rng.randi_range(coin_min, coin_max)):

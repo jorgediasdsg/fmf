@@ -106,7 +106,17 @@ func hurt(damage: int, from_pos: Vector3) -> void:
 		_die()
 
 
+func kill() -> void:
+	if not _dead:
+		GameState.take_damage(GameState.max_hp)
+		_die()
+
+
 func _die() -> void:
+	if _dead:
+		return
 	_dead = true
 	body.visible = true
+	if anim != null:
+		anim.play("die")
 	died.emit()
