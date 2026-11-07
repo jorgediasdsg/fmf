@@ -55,6 +55,24 @@ ele se torna o herói da cidade, cercado dos amigos que fez no caminho.
    formado por uma espada vertical (referência:
    `docs/referencias/logo-fmf-desenho.jpeg`).
 
+## REVISÃO 2026-11-07 (tarde) — decisões do usuário (pai)
+
+1. **Direção visual: 3D estilo "Fogo-Fátuo"/Hades** (referência: jogo do vídeo
+   youtube.com/watch?v=47N3ExwgoGs — câmera alta e inclinada, modelos low-poly
+   de **cor chapada com contorno preto e luz de borda**, vinheta, cada fase com
+   clima de cor próprio). Substitui a direção 2D pixel original — decisão
+   explícita do pai sabendo que o filho pedira 2D; o estilo "blocado tipo
+   Minecraft" citado pelo filho é a ponte. Gameplay adaptado: fases viram
+   trechos/arenas 3D (movimento em 8 direções no plano), mantendo TODAS as
+   regras da seção abaixo (corações, XP, moedas, chefes por fase, morte
+   reinicia a fase, exceção do chefão final).
+2. **Cachorro do Zack**: companheiro com **mancha preta no olho**; segue Zack
+   e ataca inimigos em investidas automáticas (dano menor que a espada).
+   Entra no MVP.
+3. Performance é restrição dura: precisa rodar no navegador e no Moto G6 Plus
+   (Adreno 508) — poucos materiais, poucas luzes dinâmicas, low-poly, renderer
+   Compatibility.
+
 ## Direção de arte e som
 
 - Pixel art, viewport base **480×270**, escala inteira, filtro nearest.
