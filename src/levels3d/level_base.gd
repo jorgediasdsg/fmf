@@ -93,13 +93,22 @@ func _on_victory() -> void:
 
 func _retry() -> void:
 	get_tree().paused = false
+	_release_game_actions()
 	GameState.reset_run()
 	get_tree().reload_current_scene()
 
 
 func _finish() -> void:
 	get_tree().paused = false
+	_release_game_actions()
 	get_tree().change_scene_to_file("res://src/ui/title_screen.tscn")
+
+
+func _release_game_actions() -> void:
+	## O dedo pode estar no joystick quando a tela de morte/vitória pausa o
+	## jogo; o evento de soltar se perde e a ação ficaria presa no Input.
+	for action in ["move_left", "move_right", "move_up", "move_down", "attack"]:
+		Input.action_release(action)
 
 
 # ---------------------------------------------------- construção de cenário

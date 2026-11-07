@@ -89,16 +89,23 @@ func _punch_scale() -> void:
 
 func _die() -> void:
 	_dying = true
-	defeated.emit()
+	# Créditos ANTES de defeated.emit(): a vitória salva o jogo em resposta
+	# ao sinal, e o XP/moedas do chefe precisam estar dentro desse save.
+	GameState.add_xp(xp_reward)
 	var parent := get_parent()
 	var rng := RandomNumberGenerator.new()
-	for i in range(rng.randi_range(coin_min, coin_max)):
-		var coin := CoinScene.instantiate()
-		coin.position = global_position + Vector3(rng.randf_range(-0.7, 0.7), 0.4,
-			rng.randf_range(-0.7, 0.7))
-		parent.call_deferred("add_child", coin)
+	var n_coins := rng.randi_range(coin_min, coin_max)
+	if boss:
+		# a árvore pausa na vitória; moedas no chão seriam incoletáveis
+		GameState.add_coins(n_coins)
+	else:
+		for i in range(n_coins):
+			var coin := CoinScene.instantiate()
+			coin.position = global_position + Vector3(rng.randf_range(-0.7, 0.7), 0.4,
+				rng.randf_range(-0.7, 0.7))
+			parent.call_deferred("add_child", coin)
 	_puff(parent)
-	GameState.add_xp(xp_reward)
+	defeated.emit()
 	if boss:
 		Sfx.play("boss_roar")
 	anim.play("die")

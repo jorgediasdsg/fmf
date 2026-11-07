@@ -1,6 +1,11 @@
 extends Node
 ## Tocador global de efeitos sonoros (autoload "Sfx").
 
+func _ready() -> void:
+	# os jingles de vitória/derrota tocam com a árvore pausada
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
 var _streams := {
 	"hit": preload("res://assets/audio/hit.wav"),
 	"hurt": preload("res://assets/audio/hurt.wav"),

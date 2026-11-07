@@ -6,11 +6,20 @@ const TOON_SHADER := preload("res://src/fx/toon.gdshader")
 const OUTLINE_SHADER := preload("res://src/fx/outline.gdshader")
 
 
+static var _flat_cache: Dictionary = {}
+
+
 static func flat(color: Color, rim_strength := 0.55) -> ShaderMaterial:
+	# Um material por combinação cor+rim: mantém o número de materiais baixo
+	# (restrição de desempenho para web e celulares fracos).
+	var key := "%s|%.3f" % [color.to_html(), rim_strength]
+	if _flat_cache.has(key):
+		return _flat_cache[key]
 	var m := ShaderMaterial.new()
 	m.shader = TOON_SHADER
 	m.set_shader_parameter("albedo", color)
 	m.set_shader_parameter("rim_strength", rim_strength)
+	_flat_cache[key] = m
 	return m
 
 
