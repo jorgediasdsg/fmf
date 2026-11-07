@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/enemies/cyclops.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cyclops_small.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="c0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="c1"]
+atlas = ExtResource("2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="frames"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("c0")}, {"duration": 1.0, "texture": SubResource("c1")}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="body_shape"]
+size = Vector2(18, 18)
+
+[sub_resource type="RectangleShape2D" id="hurt_shape"]
+size = Vector2(20, 20)
+
+[node name="Cyclops" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
+sprite_frames = SubResource("frames")
+animation = &"walk"
+autoplay = "walk"
+
+[node name="BodyShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("body_shape")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="HurtShape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -10)
+shape = SubResource("hurt_shape")
+
+[node name="LedgeRay" type="RayCast2D" parent="."]
+position = Vector2(-10, -4)
+target_position = Vector2(0, 14)

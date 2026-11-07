@@ -28,6 +28,16 @@ var _dead := false
 @onready var sfx_hurt: AudioStreamPlayer = $SfxHurt
 
 
+func _ready() -> void:
+	add_to_group("player")
+	sword.body_entered.connect(_on_sword_hit)
+
+
+func _on_sword_hit(body: Node) -> void:
+	if body.has_method("take_hit"):
+		body.take_hit(GameState.attack_damage(), float(facing))
+
+
 func _physics_process(delta: float) -> void:
 	if _dead:
 		return
