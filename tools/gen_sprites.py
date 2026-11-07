@@ -433,8 +433,23 @@ def build_bg():
     hills.save(os.path.join(OUT, "bg_hills.png"))
 
 
+def build_vignette():
+    w, h = 480, 270
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    cx, cy = w / 2, h / 2
+    max_d = (cx ** 2 + cy ** 2) ** 0.5
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            d = (((x - cx) ** 2 + (y - cy) ** 2) ** 0.5) / max_d
+            a = int(max(0.0, (d - 0.55)) / 0.45 * 150)
+            px[x, y] = (5, 8, 12, min(150, a))
+    img.save(os.path.join(OUT, "vignette.png"))
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
+    build_vignette()
     build_zack()
     build_cyclops()
     build_tiles()

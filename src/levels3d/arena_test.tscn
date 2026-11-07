@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/levels3d/arena_test.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/player3d/player.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://src/ui/vignette.tscn" id="3"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.09, 0.13, 0.12, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.56, 0.62, 0.6, 1)
+ambient_light_energy = 0.7
+fog_enabled = true
+fog_light_color = Color(0.14, 0.22, 0.19, 1)
+fog_density = 0.012
+
+[node name="ArenaTest" type="Node3D"]
+script = ExtResource("1")
+
+[node name="Env" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.35, 0.356822, 0, 0.714183, 0.699961, -0.5, -0.606185, 0.61845, 0, 10, 0)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 1.1
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("2")]
+
+[node name="Vignette" parent="." instance=ExtResource("3")]
