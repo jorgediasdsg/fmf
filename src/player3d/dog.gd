@@ -53,7 +53,7 @@ func _physics_process(delta: float) -> void:
 				to_target.y = 0.0
 				if to_target.length() < 0.7:
 					if _target.has_method("take_hit"):
-						_target.take_hit(bite_damage, global_position)
+						_target.take_hit(bite_damage + GameState.dog_bite_bonus(), global_position)
 					_cooldown = bite_cooldown
 					_state = State.RETURN
 				else:

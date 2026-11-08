@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/levels3d/phase_2.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/player3d/player.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://src/player3d/dog.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://src/ui/vignette.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://src/ui/hud.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://src/ui/touch_controls.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://src/ui/overlay_screen.tscn" id="7"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.45, 0.8, 0.96, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.78, 0.85, 0.8, 1)
+ambient_light_energy = 0.85
+fog_enabled = true
+fog_light_color = Color(0.7, 0.9, 0.96, 1)
+fog_density = 0.006
+
+[node name="Phase2" type="Node3D"]
+script = ExtResource("1")
+phase_index = 2
+next_scene = "res://src/levels3d/phase_3.tscn"
+music_name = "world2"
+
+[node name="Env" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.35, 0.356822, 0, 0.714183, 0.699961, -0.5, -0.606185, 0.61845, 0, 10, 0)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 1.1
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Dog" parent="." instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.5, 1)
+
+[node name="Vignette" parent="." instance=ExtResource("4")]
+
+[node name="Hud" parent="." instance=ExtResource("5")]
+
+[node name="TouchControls" parent="." instance=ExtResource("6")]
+
+[node name="GameOver" parent="." instance=ExtResource("7")]
+
+[node name="Victory" parent="." instance=ExtResource("7")]

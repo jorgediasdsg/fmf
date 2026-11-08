@@ -333,6 +333,25 @@ def circle_button(icon):
         d.polygon([(24, 16), (24, 48), (46, 32)], fill=w)
     elif icon == "jump":
         d.polygon([(32, 14), (48, 34), (38, 34), (38, 50), (26, 50), (26, 34), (16, 34)], fill=w)
+    elif icon == "punch":  # punho
+        d.rounded_rectangle([16, 22, 44, 44], radius=8, fill=w)
+        for x in (20, 27, 34):
+            d.line([(x, 22), (x, 30)], fill=(40, 40, 60, 200), width=2)
+        d.rectangle([40, 28, 50, 40], fill=(255, 214, 72, 220))
+    elif icon == "kick":  # perna com tênis
+        d.line([(20, 14), (30, 36)], fill=w, width=9)
+        d.rounded_rectangle([24, 34, 50, 48], radius=6, fill=(255, 214, 72, 230))
+    elif icon == "run":  # setas duplas
+        d.polygon([(14, 16), (14, 48), (32, 32)], fill=w)
+        d.polygon([(32, 16), (32, 48), (50, 32)], fill=(255, 214, 72, 230))
+    elif icon == "special":  # estrela
+        import math
+        pts = []
+        for i in range(10):
+            r = 22 if i % 2 == 0 else 9
+            a = -math.pi / 2 + i * math.pi / 5
+            pts.append((32 + r * math.cos(a), 33 + r * math.sin(a)))
+        d.polygon(pts, fill=(255, 214, 72, 240))
     elif icon == "attack":
         d.line([(20, 44), (42, 22)], fill=w, width=5)
         d.line([(40, 14), (48, 22)], fill=w, width=3)
@@ -341,7 +360,7 @@ def circle_button(icon):
 
 
 def build_buttons():
-    for name in ["left", "right", "jump", "attack"]:
+    for name in ["left", "right", "jump", "attack", "punch", "kick", "run", "special"]:
         circle_button(name).save(os.path.join(OUT, f"btn_{name}.png"))
 
 

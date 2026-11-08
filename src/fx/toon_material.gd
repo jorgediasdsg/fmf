@@ -30,4 +30,5 @@ static func add_outline(mi: MeshInstance3D, thickness := 0.03) -> void:
 	m.shader = OUTLINE_SHADER
 	m.set_shader_parameter("thickness", thickness)
 	dup.material_override = m
+	dup.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF  # contorno não projeta sombra
 	mi.add_child(dup)

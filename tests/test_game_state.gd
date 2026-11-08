@@ -157,3 +157,123 @@ func test_reset_run_enche_vida() -> String:
 		r = "reset_run devia encher a vida"
 	_cleanup(gs)
 	return r
+
+
+func test_heal_nao_passa_do_maximo() -> String:
+	var gs := _new_gs()
+	if gs == null:
+		return "game_state.gd não existe"
+	var r := ""
+	gs.take_damage(2)
+	gs.heal(3)
+	if gs.hp != gs.max_hp:
+		r = "heal devia limitar no máximo (hp=%d)" % gs.hp
+	gs.take_damage(9)
+	gs.heal(3)
+	if r == "" and gs.hp != gs.max_hp - 9 + 3:
+		r = "heal(3) devia curar 3 (hp=%d)" % gs.hp
+	_cleanup(gs)
+	return r
+
+
+func test_loja_compras() -> String:
+	var gs := _new_gs()
+	if gs == null:
+		return "game_state.gd não existe"
+	var r := ""
+	gs.coins = 100
+	if gs.buy("apple"):
+		r = "maçã com vida cheia não devia gastar moeda"
+	gs.take_damage(9)
+	if r == "" and (not gs.buy("apple") or gs.coins != 94 or gs.hp != gs.max_hp - 6):
+		r = "maçã devia custar 6 e curar 3 (coins=%d hp=%d)" % [gs.coins, gs.hp]
+	if r == "" and (not gs.buy("cake") or gs.hp != gs.max_hp or gs.coins != 74):
+		r = "bolo devia custar 20 e curar tudo (coins=%d hp=%d)" % [gs.coins, gs.hp]
+	gs.coins = 200
+	var dmg: int = gs.attack_damage()
+	if r == "" and (not gs.buy("magazine") or gs.attack_damage() != dmg + 1):
+		r = "revista devia dar +1 de dano"
+	if r == "" and gs.price_of("magazine") != 50:
+		r = "segunda revista devia custar 50, custa %d" % gs.price_of("magazine")
+	gs.coins = 0
+	if r == "" and gs.buy("magazine"):
+		r = "sem moedas não devia comprar"
+	_cleanup(gs)
+	return r
+
+
+func test_rifle_so_nas_fases_avancadas() -> String:
+	var gs := _new_gs()
+	if gs == null:
+		return "game_state.gd não existe"
+	var r := ""
+	gs.coins = 500
+	gs.current_phase = 2
+	if gs.buy("rifle"):
+		r = "rifle não devia estar à venda na fase 2"
+	gs.current_phase = 3
+	if r == "" and (not gs.buy("rifle") or not gs.has_rifle or gs.coins != 340):
+		r = "rifle devia custar 160 na fase 3 (coins=%d)" % gs.coins
+	if r == "" and gs.buy("rifle"):
+		r = "rifle só pode ser comprado uma vez"
+	gs.save()
+	gs.has_rifle = false
+	gs.load_save()
+	if r == "" and not gs.has_rifle:
+		r = "has_rifle devia voltar do save"
+	_cleanup(gs)
+	return r
+
+
+func test_bonus_de_ataque_persiste_no_save() -> String:
+	var gs := _new_gs()
+	if gs == null:
+		return "game_state.gd não existe"
+	var r := ""
+	gs.attack_bonus = 2
+	gs.save()
+	gs.attack_bonus = 0
+	gs.load_save()
+	if gs.attack_bonus != 2:
+		r = "attack_bonus devia voltar do save (=%d)" % gs.attack_bonus
+	_cleanup(gs)
+	return r
+
+
+func test_personagem_escolhido_persiste() -> String:
+	var gs := _new_gs()
+	if gs == null:
+		return "game_state.gd não existe"
+	var r := ""
+	gs.set_character("menina")
+	gs.save()
+	gs.set_character("zack")
+	gs.load_save()
+	if gs.character != "menina":
+		r = "personagem devia voltar do save (=%s)" % gs.character
+	gs.set_character("invalido")
+	if r == "" and gs.character != "zack":
+		r = "personagem inválido devia virar zack"
+	_cleanup(gs)
+	return r
+
+
+func test_racao_super_premio_sobe_dano_do_cao() -> String:
+	var gs := _new_gs()
+	if gs == null:
+		return "game_state.gd não existe"
+	var r := ""
+	gs.coins = 100
+	if gs.dog_bite_bonus() != 0:
+		r = "sem ração o bônus do cão devia ser 0"
+	if r == "" and (not gs.buy("dog_food") or gs.dog_bite_bonus() != 2 or gs.coins != 55):
+		r = "ração devia custar 45 e dar +2 (coins=%d bônus=%d)" % [gs.coins, gs.dog_bite_bonus()]
+	if r == "" and gs.price_of("dog_food") != 70:
+		r = "segunda ração devia custar 70, custa %d" % gs.price_of("dog_food")
+	gs.save()
+	gs.dog_bonus = 0
+	gs.load_save()
+	if r == "" and gs.dog_bonus != 1:
+		r = "dog_bonus devia voltar do save (=%d)" % gs.dog_bonus
+	_cleanup(gs)
+	return r

@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://src/ui/touch_controls.gd" id="1"]
 [ext_resource type="Script" path="res://src/ui/virtual_joystick.gd" id="2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/btn_attack.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/btn_punch.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/btn_kick.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/btn_jump.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/btn_run.png" id="6"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/btn_special.png" id="7"]
 
 [node name="TouchControls" type="CanvasLayer"]
 layer = 10
@@ -17,7 +22,27 @@ offset_top = 60.0
 mouse_filter = 2
 script = ExtResource("2")
 
-[node name="Attack" type="TouchScreenButton" parent="."]
+[node name="Punch" type="TouchScreenButton" parent="."]
 scale = Vector2(0.875, 0.875)
 texture_normal = ExtResource("3")
-action = "attack"
+action = "punch"
+
+[node name="Kick" type="TouchScreenButton" parent="."]
+scale = Vector2(0.875, 0.875)
+texture_normal = ExtResource("4")
+action = "kick"
+
+[node name="Jump" type="TouchScreenButton" parent="."]
+scale = Vector2(0.875, 0.875)
+texture_normal = ExtResource("5")
+action = "jump"
+
+[node name="Run" type="TouchScreenButton" parent="."]
+scale = Vector2(0.875, 0.875)
+texture_normal = ExtResource("6")
+action = "run"
+
+[node name="Special" type="TouchScreenButton" parent="."]
+scale = Vector2(0.875, 0.875)
+texture_normal = ExtResource("7")
+action = "special"

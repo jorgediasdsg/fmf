@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/enemies3d/octopus.gd" id="1"]
+
+[sub_resource type="CapsuleShape3D" id="col"]
+radius = 0.55
+height = 1.5
+
+[node name="Octopus" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1")
+hp = 12
+contact_damage = 2
+speed = 3.2
+xp_reward = 6
+coin_min = 1
+coin_max = 2
+chase_range = 9.0
+contact_range = 1.0
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("col")

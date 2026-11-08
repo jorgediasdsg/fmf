@@ -17,11 +17,11 @@ var _charge_dir := Vector3.ZERO
 func _physics_process(delta: float) -> void:
 	if _dying:
 		return
-	var player := get_tree().get_first_node_in_group("player") as Node3D
+	var player := _target()
 	match _bstate:
 		BossState.NORMAL:
 			super._physics_process(delta)
-			if player != null and global_position.distance_to(player.global_position) < chase_range:
+			if _can_see(player) and global_position.distance_to(player.global_position) < chase_range:
 				_timer -= delta
 				if _timer <= 0.0:
 					_bstate = BossState.TELEGRAPH
@@ -30,8 +30,13 @@ func _physics_process(delta: float) -> void:
 		BossState.TELEGRAPH:
 			velocity.x = 0.0
 			velocity.z = 0.0
+			if not _can_see(player):  # sumiu no mato: desiste da investida
+				model.scale = Vector3.ONE * _base_scale()
+				_bstate = BossState.NORMAL
+				_timer = CHARGE_INTERVAL
+				return
 			var pulse := 1.0 + 0.12 * sin(_timer * 25.0)
-			model.scale = Vector3.ONE * 2.2 * pulse
+			model.scale = Vector3.ONE * _base_scale() * pulse
 			if player != null:
 				var dir := player.global_position - global_position
 				dir.y = 0.0
@@ -39,7 +44,7 @@ func _physics_process(delta: float) -> void:
 				_charge_dir = dir.normalized()
 			_timer -= delta
 			if _timer <= 0.0:
-				model.scale = Vector3.ONE * 2.2
+				model.scale = Vector3.ONE * _base_scale()
 				_bstate = BossState.CHARGE
 				_timer = CHARGE_TIME
 			move_and_slide()

@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	rotate_y(3.0 * delta)
-	var player := get_tree().get_first_node_in_group("player") as Node3D
+	var player := GameState.nearest_player(global_position)
 	if player != null:
 		var d := global_position.distance_to(player.global_position)
 		if d < MAGNET_RADIUS:

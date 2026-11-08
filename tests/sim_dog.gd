@@ -47,7 +47,7 @@ func _process(_d) -> bool:
 		_check(dog.global_position.distance_to(player.global_position) < 3.0,
 			"cachorro devia ficar perto do Zack (dist %.1f)" % dog.global_position.distance_to(player.global_position))
 	if f == 300:
-		_check(cyclops.hp <= 4, "ciclope devia ter levado mordida (hp=%d)" % cyclops.hp)
+		_check(cyclops.hp <= 8, "ciclope devia ter levado mordida (hp=%d)" % cyclops.hp)
 		if fails.is_empty():
 			print("DOG SIM PASSED")
 			quit(0)

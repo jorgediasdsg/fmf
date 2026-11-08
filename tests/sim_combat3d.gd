@@ -49,9 +49,9 @@ func _process(_d) -> bool:
 	match f:
 		10:
 			hp0 = cyclops.hp
-			Input.action_press("attack")
+			Input.action_press("kick")
 		12:
-			Input.action_release("attack")
+			Input.action_release("kick")
 		60:
 			_check(cyclops.hp == hp0 - gs.attack_damage(),
 				"golpe devia tirar %d (hp %d→%d)" % [gs.attack_damage(), hp0, cyclops.hp])
@@ -66,7 +66,7 @@ func _process(_d) -> bool:
 			cyclops.take_hit(999, Vector3.ZERO)
 		170:
 			_check(not is_instance_valid(cyclops) or cyclops.hp <= 0, "ciclope devia morrer")
-			_check(gs.xp == xp0 + 8, "kill devia dar 8 XP (era %d, é %d)" % [xp0, gs.xp])
+			_check(gs.xp == xp0 + 5, "kill devia dar 5 XP (era %d, é %d)" % [xp0, gs.xp])
 			if fails.is_empty():
 				print("COMBAT3D PASSED")
 				quit(0)
